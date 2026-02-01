@@ -1,0 +1,25 @@
+{
+  "name": "chat-app-pro",
+  "version": "2.0.0",
+  "description": "Professional Real-Time Chat Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "chat",
+    "realtime",
+    "messaging",
+    "websocket",
+    "nodejs"
+  ],
+  "author": "ChatApp Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

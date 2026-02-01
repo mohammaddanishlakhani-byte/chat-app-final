@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp Pro - Real Time Messaging</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">
+                <h2>ChatApp Pro</h2>
+                <p>Connecting to chat server...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen">
+        <div class="login-container">
+            <div class="login-left">
+                <div class="logo">
+                    <i class="fas fa-comments"></i>
+                    <h1>ChatApp <span class="pro">Pro</span></h1>
+                    <p class="tagline">Connect. Chat. Collaborate.</p>
+                </div>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Real-Time</h3>
+                        <p>Instant messaging with no delay</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Secure</h3>
+                        <p>End-to-end encrypted chats</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-users"></i>
+                        <h3>Group Chats</h3>
+                        <p>Create rooms for any topic</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="login-right">
+                <div class="login-card">
+                    <h2>Welcome Back!</h2>
+                    <p class="subtitle">Enter your details to join the chat</p>
+                    
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fas fa-user"></i> Your Name
+                        </label>
+                        <input type="text" id="username" placeholder="Enter your name" maxlength="20" autocomplete="off">
+                        <div class="hint">This will be visible to everyone</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="avatar-select">
+                            <i class="fas fa-smile"></i> Choose Avatar
+                        </label>
+                        <div class="avatar-grid">
+                            <div class="avatar-option active" data-avatar="👨‍💻">
+                                <span>👨‍💻</span>
+                            </div>
+                            <div class="avatar-option" data-avatar="👩‍💻">
+                                <span>👩‍💻</span>
+                            </div>
+                            <div class="avatar-option" data-avatar="😎">
+                                <span>😎</span>
+                            </div>
+                            <div class="avatar-option" data-avatar="🤖">
+                                <span>🤖</span>
+                            </div>
+                            <div class="avatar-option" data-avatar="🐱">
+                                <span>🐱</span>
+                            </div>
+                            <div class="avatar-option" data-avatar="🦊">
+                                <span>🦊</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="room-select">
+                            <i class="fas fa-hashtag"></i> Select Room
+                        </label>
+                        <select id="room-select">
+                            <option value="general"># General Chat</option>
+                            <option value="gaming"># Gaming Zone</option>
+                            <option value="movies"># Movie Lovers</option>
+                            <option value="music"># Music Fans</option>
+                            <option value="tech"># Tech Talk</option>
+                        </select>
+                    </div>
+                    
+                    <button id="join-btn" class="join-button">
+                        <i class="fas fa-sign-in-alt"></i> Join Chat Room
+                    </button>
+                    
+                    <div class="login-footer">
+                        <div class="online-count">
+                            <i class="fas fa-users"></i>
+                            <span><span id="online-count">0</span> users online</span>
+                        </div>
+                        <p class="terms">By joining, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Chat Interface -->
+    <div id="chat-screen" class="screen hidden">
+        <!-- Top Header -->
+        <div class="chat-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="room-info">
+                    <h1><i class="fas fa-hashtag"></i> <span id="current-room">General Chat</span></h1>
+                    <div class="room-stats">
+                        <span class="online-badge">
+                            <i class="fas fa-circle"></i> <span id="room-online-count">1</span> online
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <button class="header-btn" id="search-btn" title="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="header-btn" id="notifications-btn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                <div class="user-dropdown">
+                    <div class="user-avatar" id="header-avatar">👨‍💻</div>
+                    <span class="username" id="header-username">Guest</span>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fas fa-user"></i> Profile</a>
+                        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-content">
+                    <!-- User Profile -->
+                    <div class="sidebar-profile">
+                        <div class="profile-avatar" id="profile-avatar">👨‍💻</div>
+                        <div class="profile-info">
+                            <h3 id="profile-username">Guest</h3>
+                            <p class="status online"><i class="fas fa-circle"></i> Online</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Bar -->
+                    <div class="sidebar-search">
+                        <input type="text" placeholder="Search messages..." id="sidebar-search">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <!-- Rooms Section -->
+                    <div class="sidebar-section">
+                        <h3><i class="fas fa-comments"></i> Chat Rooms</h3>
+                        <div class="rooms-list" id="rooms-list">
+                            <!-- Rooms will be added by JavaScript -->
+                        </div>
+                        <button class="new-room-btn" id="new-room-btn">
+                            <i class="fas fa-plus"></i> Create New Room
+                        </button>
+                    </div>
+                    
+                    <!-- Online Users -->
+                    <div class="sidebar-section">
+                        <h3><i class="fas fa-users"></i> Online Users <span class="count" id="sidebar-online-count">1</span></h3>
+                        <div class="users-list" id="users-list">
+                            <!-- Users will be added by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="chat-area">
+                <!-- Messages Container -->
+                <div class="messages-container" id="messages-container">
+                    <!-- Welcome Message -->
+                    <div class="welcome-message">
+                        <div class="welcome-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h2>Welcome to ChatApp Pro!</h2>
+                        <p>Start chatting with others in this room. Messages appear here in real-time.</p>
+                        <div class="welcome-tips">
+                            <div class="tip">
+                                <i class="fas fa-bold"></i>
+                                <span>Use **bold** for bold text</span>
+                            </div>
+                            <div class="tip">
+                                <i class="fas fa-italic"></i>
+                                <span>Use *italic* for italic text</span>
+                            </div>
+                            <div class="tip">
+                                <i class="fas fa-at"></i>
+                                <span>Type @ to mention someone</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Messages will be appended here -->
+                </div>
+
+                <!-- Message Input -->
+                <div class="message-input-container">
+                    <!-- Action Buttons -->
+                    <div class="input-actions">
+                        <button class="action-btn" id="emoji-btn" title="Emoji">
+                            <i class="far fa-smile"></i>
+                        </button>
+                        <button class="action-btn" id="file-btn" title="Attach File">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <button class="action-btn" id="format-btn" title="Formatting">
+                            <i class="fas fa-font"></i>
+                        </button>
+                        <button class="action-btn" id="gif-btn" title="GIF">
+                            <i class="fas fa-film"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Message Input -->
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="message-input" 
+                            placeholder="Type your message here... Press Enter to send"
+                            rows="1"
+                            autocomplete="off"
+                        ></textarea>
+                        <button id="send-btn" class="send-btn" title="Send (Ctrl+Enter)">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Formatting Toolbar -->
+                    <div class="formatting-toolbar hidden" id="formatting-toolbar">
+                        <button class="format-option" data-format="bold" title="Bold">
+                            <i class="fas fa-bold"></i>
+                        </button>
+                        <button class="format-option" data-format="italic" title="Italic">
+                            <i class="fas fa-italic"></i>
+                        </button>
+                        <button class="format-option" data-format="code" title="Code">
+                            <i class="fas fa-code"></i>
+                        </button>
+                        <button class="format-option" data-format="link" title="Link">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typing-indicator">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span id="typing-text">Someone is typing...</span>
+        </div>
+    </div>
+
+    <!-- Toastr Configuration -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options = {
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            progressBar: true,
+            closeButton: true,
+            timeOut: 3000
+        };
+    </script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
